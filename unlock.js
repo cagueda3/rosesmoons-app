@@ -91,7 +91,14 @@
     showMessage("This browser cannot open Rose's Moons. Open the page in Safari or Chrome with https."); return;
   }
 
-  fetch("app.enc").then(function (res) { if (!res.ok) throw new Error("load"); return res.arrayBuffer(); }).then(function (buf) {
+  // Download the game once: wait until the offline helper has saved it, then read that saved copy.
+  // (Without this wait the first visit downloads the 4-5 MB file twice.)
+  showMessage("Loading Rose's Moons... The first time can take a minute.");
+  function controlled() {
+    if (navigator.serviceWorker.controller) return Promise.resolve();
+    return new Promise(function (res) { navigator.serviceWorker.addEventListener("controllerchange", res); setTimeout(res, 4000); });
+  }
+  swReady.then(controlled, function () {}).then(function () { return fetch("app.enc"); }).then(function (res) { if (!res.ok) throw new Error("load"); return res.arrayBuffer(); }).then(function (buf) {
     var sealed = new Uint8Array(buf), saved = null;
     try { saved = localStorage.getItem(KEY_NAME); } catch (e) {}
     if (!saved) return showForm(sealed);

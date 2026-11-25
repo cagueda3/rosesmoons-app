@@ -4,7 +4,7 @@
 // - The game's files under app/ were unscrambled on this device by unlock.js and live only in this
 //   device's offline storage; they are never fetched from the web. If they are missing, the lock page opens.
 // Only this page's own storage is touched (StrikeRX on the same site keeps its own).
-const SHELL_CACHE = "rosesmoons-shell-20261125200009";
+const SHELL_CACHE = "rosesmoons-shell-20261125200822";
 const APP_CACHE = "rosesmoons-app";
 const SHELL = ["./", "index.html", "unlock.js", "app.enc", "manifest.webmanifest", "icon-180.png", "icon-192.png", "icon-512.png"];
 
